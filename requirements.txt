@@ -1,0 +1,6 @@
+datatorch
+requests
+grpcio
+grpcio-tools
+numpy
+git+https://github.com/jsbroks/dextr-keras.git

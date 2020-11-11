@@ -1,0 +1,30 @@
+$schema: http://datatorch.io/schema/action.v1.json
+
+name: DEXTR
+description: Runs DEXTR on a given image.
+inputs:
+  imagePath:
+    type: string
+    required: true
+    description: Absolute path to image
+  points:
+    type: array
+    required: true
+    description: >
+      4 points marking the most left, right, bottom and top points of the shape
+  endpoint:
+    type: string
+    default: null
+    description: >
+      Endpoint to post to for dextr points.
+  port:
+    type: string
+    default: "50060"
+    description: Port to used for the DEXTR service.
+outputs:
+  segmentation:
+    type: array
+    description: Segmentation of points predicted by DEXTR
+runs:
+  using: python
+  main: import_coco.py
