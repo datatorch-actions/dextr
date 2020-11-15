@@ -1,10 +1,14 @@
+from dextr.model import DextrModel
+
 from flask import Flask, request, jsonify
 from PIL import Image
 import numpy as np
 
-# from imantics import Mask
+from imantics import Mask
+
 
 app = Flask(__name__)
+model = DextrModel.pascalvoc_resunet101()
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -12,11 +16,9 @@ def hello_world():
     if request.method == "POST":
         content = request.json
         image = Image.open(content["image_path"])
-        print(image.width)
         points = np.array(content["points"])
-
-        # { "segmentaiton": Mask(result).polygons().segmentation }
-        return jsonify({"hello": True})
+        mask = model.predict([image], [points])[0]
+        return jsonify({"segmentaiton": Mask(mask).polygons().segmentation})
     return "<h4>DEXTR Action is running.</h4>"
 
 

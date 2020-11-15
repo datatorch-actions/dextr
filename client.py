@@ -1,10 +1,12 @@
 from typing import List, Tuple, cast
 import os
+from flask.globals import request
 import grpc
 from grpc import Channel
 import dextr_pb2
 import dextr_pb2_grpc
 import numpy as np
+
 
 Point = Tuple[float, float]
 

@@ -2,5 +2,7 @@ datatorch
 requests
 grpcio
 grpcio-tools
+python3-protobuf
+protobuf
 numpy
-git+https://github.com/jsbroks/dextr-keras.git
+docker
