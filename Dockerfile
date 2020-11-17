@@ -32,7 +32,7 @@ WORKDIR /workspace
 COPY dextr.txt /workspace
 RUN pip install -r dextr.txt
 RUN python -c "from dextr.model import DextrModel; DextrModel.pascalvoc_resunet101()"
-COPY image.jpg /workspace
+
 COPY test.py /workspace
 
 ENTRYPOINT [ "python", "test.py" ]

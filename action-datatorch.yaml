@@ -14,17 +14,23 @@ inputs:
       4 points marking the most left, right, bottom and top points of the shape
   endpoint:
     type: string
-    default: null
+    default: /
     description: >
-      Endpoint to post to for dextr points.
-  port:
+      Endpoint to post to for DEXTR points.
+  url:
     type: string
-    default: "50060"
-    description: Port to used for the DEXTR service.
+    default: http://localhost:3445
+    description: >
+      Url for sending requests. A DEXTR docker image will be spun up on this
+      port if not found.
+  image:
+    type: string
+    default: datatorch/action-dextr
+    description: Container image to spin up.
 outputs:
   segmentation:
     type: array
     description: Segmentation of points predicted by DEXTR
 runs:
   using: python
-  main: import_coco.py
+  main: entry.py
