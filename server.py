@@ -11,9 +11,10 @@ app = Flask(__name__)
 def hello_world():
     if request.method == "POST":
         content = request.json
-        image = Image.open(content["image_path"])
+        image = Image.open(content["path"])
         print(image.width)
         points = np.array(content["points"])
+        print(points)
 
         # { "segmentaiton": Mask(result).polygons().segmentation }
         return jsonify({"hello": True})

@@ -29,8 +29,8 @@ RUN apt-get install 'ffmpeg'\
 RUN apt install liblzma-dev
 
 WORKDIR /workspace
-COPY dextr.txt /workspace
-RUN pip install -r dextr.txt
+COPY requirements_container.txt /workspace
+RUN pip install -r requirements_container.txt
 RUN python -c "from dextr.model import DextrModel; DextrModel.pascalvoc_resunet101()"
 
 COPY test.py /workspace

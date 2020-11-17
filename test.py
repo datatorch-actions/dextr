@@ -15,7 +15,7 @@ model = DextrModel.pascalvoc_resunet101()
 def hello_world():
     if request.method == "POST":
         content = request.json
-        image = Image.open(content["image_path"])
+        image = Image.open(content["path"])
         points = np.array(content["points"])
         mask = model.predict([image], [points])[0]
         return jsonify({"segmentaiton": Mask(mask).polygons().segmentation})
