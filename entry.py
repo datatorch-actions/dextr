@@ -1,5 +1,8 @@
 import datatorch
 from datatorch import agent, set_output
+from datatorch.api.api import ApiClient
+from datatorch.api.entity.sources.image import Segmentations
+from datatorch.api.entity.sources.image import segmentations
 import requests
 import docker
 import time
@@ -14,11 +17,13 @@ Point = Tuple[float, float]
 
 
 directory = os.path.dirname(os.path.abspath(__file__))
+
 agent_dir = agent.directories().root
 points = datatorch.get_input("points")
 image_path = datatorch.get_input("imagePath")
 address = urlparse(datatorch.get_input("url"))
 image = datatorch.get_input("image")
+annotation_id = datatorch.get_input("annotationId")
 
 # [[10,20],[30, 40],[50,60],[70,80]]
 # points: List[Point] = [(10.0, 20.0), (30.0, 40.0), (50.0, 60.0), (70.0, 80.0)]
@@ -52,7 +57,7 @@ def start_server(port: int):
         print(f"Created DEXTR Container: {container.id}")
 
 
-def call_dextr(path: str, points: List[Point], address: str) -> List[Point]:
+def call_dextr(path: str, points: List[Point], address: str) -> List[List[Point]]:
     agent_folder = agent.directories().root
     container_path = path.replace(agent_folder, "/agent")
 
@@ -76,6 +81,13 @@ def send_request():
             print(f"Attemp {attempts}: Request to DEXTR Server")
             seg = call_dextr(image_path, points, address.geturl())
             set_output("polygons", seg)
+            print(annotation_id)
+            if annotation_id is not None:
+                print(f"Creating segmentation source for annotation {annotation_id}")
+                s = Segmentations()
+                s.annotation_id = annotation_id
+                s.path_data = seg
+                s.create(ApiClient())
             exit(0)
         except Exception as ex:
             if attempts > 5:
