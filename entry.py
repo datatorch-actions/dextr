@@ -5,11 +5,12 @@ import docker
 import time
 import os
 
-from typing import List
-
+from typing import List, Tuple
 from docker.models.resource import Model
-from client import call_dextr, Point
 from urllib.parse import urlparse
+
+
+Point = Tuple[float, float]
 
 
 directory = os.path.dirname(os.path.abspath(__file__))
@@ -18,6 +19,10 @@ points = datatorch.get_input("points")
 image_path = datatorch.get_input("imagePath")
 address = urlparse(datatorch.get_input("url"))
 image = datatorch.get_input("image")
+
+# [[10,20],[30, 40],[50,60],[70,80]]
+# points: List[Point] = [(10.0, 20.0), (30.0, 40.0), (50.0, 60.0), (70.0, 80.0)]
+# image_path = "/home/desktop/.config/datatorch/agent/temp/download-file/20201025_102443 (17th copy).jpg"
 
 
 CONTAINER_NAME = "datatorch-dextr-action"
