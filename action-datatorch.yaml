@@ -12,11 +12,6 @@ inputs:
     required: true
     description: >
       4 points marking the most left, right, bottom and top points of the shape
-  endpoint:
-    type: string
-    default: /
-    description: >
-      Endpoint to post to for DEXTR points.
   url:
     type: string
     default: http://localhost:3445

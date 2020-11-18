@@ -32,7 +32,10 @@ WORKDIR /workspace
 COPY requirements_container.txt /workspace
 RUN pip install -r requirements_container.txt
 RUN python -c "from dextr.model import DextrModel; DextrModel.pascalvoc_resunet101()"
+RUN pip install gunicorn==20.0.4
+COPY server.py /workspace
 
-COPY test.py /workspace
+EXPOSE 8000
 
-ENTRYPOINT [ "python", "test.py" ]
+WORKDIR /workspace
+CMD [ "gunicorn", "-w 6", "-b 0.0.0.0:8000", "server:app" ]

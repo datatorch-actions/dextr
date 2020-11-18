@@ -1,5 +1,6 @@
 import datatorch
-from datatorch import agent
+from datatorch import agent, set_output
+import requests
 import docker
 import time
 import os
@@ -42,12 +43,27 @@ def start_server(port: int):
     container = docker_client.containers.run(
         image,
         detach=True,
-        ports={"3000/tcp": port},
+        ports={"8000/tcp": port},
         restart_policy={"Name": "always"},
-        volumes={"/agent": {"bind": agent_dir, "mode": "rp"}},
+        volumes={agent_dir: {"bind": "/agent", "mode": "rw"}},
     )
     if isinstance(container, Model):
         print(f"Created DEXTR Container: {container.id}")
+
+
+def call_dextr(path: str, points: List[Point], address: str) -> List[Point]:
+    agent_folder = agent.directories().root
+    container_path = path.replace(agent_folder, "/agent")
+
+    print(f"Sending request to '{address}' (POST)")
+    print(f"Image Path = {path}")
+    print(f"Container Path = {container_path}")
+    print(f"Points = {points}")
+
+    response = requests.post(address, json={"path": container_path, "points": points})
+    json = response.json()
+    print(f"Response = {json}")
+    return json["polygons"]
 
 
 def send_request():
@@ -56,13 +72,15 @@ def send_request():
     while True:
         try:
             attempts += 1
-            call_dextr(image_path, points, address.geturl())
-            return
+            print(f"Attemp {attempts}: Request to DEXTR Server")
+            seg = call_dextr(image_path, points, address.geturl())
+            set_output("polygons", seg)
+            exit(0)
         except Exception as ex:
             if attempts > 5:
                 print(ex)
                 break
-            print(f"Attemp: {attempts}")
+            print(f"Attemp {attempts}: Failed")
             print("Could not connect to dextr.")
             start_server(address.port or 80)
             time.sleep(5)
