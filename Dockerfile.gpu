@@ -1,4 +1,5 @@
-FROM python:3.8.5
+FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-runtime
+
 
 RUN apt-get update
 RUN apt-get install 'ffmpeg'\
@@ -15,6 +16,6 @@ RUN pip install gunicorn==20.0.4
 COPY server.py /workspace
 
 EXPOSE 8000
-ENV DEVICE=cpu
+ENV DEVICE=cuda:0
 WORKDIR /workspace
 CMD [ "gunicorn", "-w 6", "-b 0.0.0.0:8000", "server:app" ]

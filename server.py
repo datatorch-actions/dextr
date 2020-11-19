@@ -4,12 +4,17 @@ from flask import Flask, request, jsonify
 from PIL import Image
 import numpy as np
 import time
+import torch
+import os
 
 from imantics import Mask
 
+device = os.getenv("DEVICE", "cpu")
+torch_device = torch.device(device)
 
 app = Flask(__name__)
 model = DextrModel.pascalvoc_resunet101()
+model.eval()
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -25,8 +30,11 @@ def hello_world():
         image = Image.open(path)
         print(f"Image Size: {image.size}", flush=True)
 
+        # points come in [x,y] order; this must be flipped
+        points = points[:, ::-1]
         mask = model.predict([image], [points])[0]
-        polygons = Mask(mask).polygons().points
+        mask_bin = mask >= 0.5
+        polygons = Mask(mask_bin).polygons().points
         polygons = [polygon.tolist() for polygon in polygons if len(polygon) > 2]
         print(f"Result: {polygons}", flush=True)
 
