@@ -1,8 +1,8 @@
-import datatorch
-from datatorch import agent, set_output
+from datatorch import get_input, agent, set_output
 from datatorch.api.api import ApiClient
 from datatorch.api.entity.sources.image import Segmentations
-from datatorch.api.entity.sources.image import segmentations
+from datatorch.api.scripts.utils.simplify import simplify_points
+
 import requests
 import docker
 import time
@@ -19,11 +19,12 @@ Point = Tuple[float, float]
 directory = os.path.dirname(os.path.abspath(__file__))
 
 agent_dir = agent.directories().root
-points = datatorch.get_input("points")
-image_path = datatorch.get_input("imagePath")
-address = urlparse(datatorch.get_input("url"))
-image = datatorch.get_input("image")
-annotation_id = datatorch.get_input("annotationId")
+points = get_input("points")
+image_path = get_input("imagePath")
+address = urlparse(get_input("url"))
+image = get_input("image")
+annotation_id = get_input("annotationId")
+simplify = get_input("simplify")
 
 # [[10,20],[30, 40],[50,60],[70,80]]
 # points: List[Point] = [(10.0, 20.0), (30.0, 40.0), (50.0, 60.0), (70.0, 80.0)]
@@ -86,7 +87,11 @@ def send_request():
                 print(f"Creating segmentation source for annotation {annotation_id}")
                 s = Segmentations()
                 s.annotation_id = annotation_id
-                s.path_data = seg
+                s.path_data = (
+                    seg
+                    if simplify == 0
+                    else [simplify_points(polygon) for polygon in seg]
+                )
                 s.create(ApiClient())
             exit(0)
         except Exception as ex:

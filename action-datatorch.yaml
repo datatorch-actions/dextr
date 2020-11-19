@@ -28,6 +28,12 @@ inputs:
     description: >
       Annotation to insert segmentation into. If not provided the segmentation
       will not be inserted.
+  simplify:
+    type: float
+    default: 0.5
+    description: >
+      Simplification tolerance applied to segmentation before importing. Set to
+      0 to disable. Disabling can significantly increase performance.
 outputs:
   segmentation:
     type: array
