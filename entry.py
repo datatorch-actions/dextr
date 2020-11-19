@@ -81,17 +81,21 @@ def send_request():
             attempts += 1
             print(f"Attemp {attempts}: Request to DEXTR Server")
             seg = call_dextr(image_path, points, address.geturl())
-            set_output("polygons", seg)
+            output_seg = (
+                seg
+                if simplify == 0
+                else [
+                    simplify_points(polygon, tolerance=simplify, highestQuality=False)
+                    for polygon in seg
+                ]
+            )
+            set_output("polygons", output_seg)
             print(annotation_id)
             if annotation_id is not None:
                 print(f"Creating segmentation source for annotation {annotation_id}")
                 s = Segmentations()
                 s.annotation_id = annotation_id
-                s.path_data = (
-                    seg
-                    if simplify == 0
-                    else [simplify_points(polygon) for polygon in seg]
-                )
+                s.path_data = output_seg
                 s.create(ApiClient())
             exit(0)
         except Exception as ex:
