@@ -30,10 +30,11 @@ inputs:
       will not be inserted.
   simplify:
     type: float
-    default: 0.5
+    default: 1.5
     description: >
       Simplification tolerance applied to segmentation before importing. Set to
-      0 to disable. Disabling can significantly increase performance.
+      0 to disable. Disabling can significantly increase pipeline performance,
+      but decrease annotator performance.
 outputs:
   segmentation:
     type: array
