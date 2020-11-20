@@ -1,5 +1,15 @@
 # DEXTR Action
 
+<h1 align="center">
+  DEXTR Action
+</h1>
+
+<h4 align="center">Use of extreme points in an object (left-most, right-most, top, bottom pixels) as input to obtain precise object segmentation for images and videos.</h4>
+
+<p align="center">
+  <img alt="DataTorch Action" src="https://img.shields.io/static/v1?label=DataTorch%20Action&message=datatorch/dextr@v1&color=blueviolet">
+  <img alt="Open Issues" src="https://img.shields.io/github/issues/datatorch-actions/dextr">
+</p>
 
 - [DEXTR Action](#dextr-action)
   - [User Guide](#user-guide)
