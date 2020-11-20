@@ -1,8 +1,5 @@
 # DEXTR Action
 
-
-# DEXTR
-
 This guide is intended to help first-time users setup Deep Extreme Cut [DEXTR](https://github.com/scaelles/DEXTR-PyTorch) for usage in the Datatorch annotator.
 
 ## Prerequisites
@@ -59,7 +56,7 @@ Success should look like this in the console:
 
 and look like this on the web client:
 
-TODO: WEBCLIENT AGENT
+![Agent success shown in the agent section of user settings](/images/agent_success.png)
 
 Although the agent is now connected to your account, the agent needs to be attached to a specific project. On the Datatorch website, from the target project's summary page, navigate to the project's **Settings** and click on the **Agents** under **Pipeline**.
 
@@ -104,19 +101,19 @@ If you are making multiple pipelines, please ensure that the top-level name fiel
 
 If the pipeline has been setup correctly, a new tool with a brain icon should appear in the annotator:
 
-TODO: TOOLBAR WITH BRAIN
+![DEXTR tool appears in the sidebar of the annotator](/images/tool_appears.png)
 
-You can proceed to create DEXTR annotations by clicking on the icon, selecting an appropriate label, and then creating a bounding box with four points that encompass the object to be segemented. A loading indicator will show on the created or edited annotation indicating that the image is being processed by the agent.
+You can proceed to create DEXTR annotations by clicking on the icon, selecting an appropriate label, and then creating a bounding box with four points/clicks that encompass the object to be segemented. A loading indicator will show on the created or edited annotation indicating that the image is being processed by the agent.
 
 **IMPORTANT NOTE: agents running DEXTR for the first time must perform a download of a few gigabytes, which will take some time to complete. Your first annotation will take several minutes to complete. Do not exit out of your agent unless it specifically throws an error.**
 
 Although the agent will take some time to start, as long as it is connected, you are free to continue to make DEXTR bounding boxes and new annotations on other objects and on other files.
 
-TODO: ANIMATED 4-POINTS DEMONSTRATION
+![DEXTR annotation is loading](/images/loading.gif)
 
 Once the first-time setup completes, all bounding boxes will be populated with their DEXTR segementations. Subsequent DEXTR annotations will update a few seconds after completing a bounding box.
 
-TODO: SHOW FASTER DEXTR WORK
+![DEXTR tool demonstration, clicking four times](/images/action.gif)
 
 Currently, re-doing DEXTR segmentations on a bounding box is not supported, but editing existing DEXTR segmentations is supported through use of the brush and eraser tool.
 
