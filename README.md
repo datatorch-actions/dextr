@@ -9,7 +9,6 @@
   <img alt="Open Issues" src="https://img.shields.io/github/issues/datatorch-actions/dextr">
 </p>
 
-
 DEXTR explores the use of extreme points in an object (left-most, right-most,
 top, bottom pixels) as input to obtain precise object segmentation for images
 and videos. We do so by adding an extra channel to the image in the input of a
@@ -21,11 +20,9 @@ segmentation, video object segmentation, and dense segmentation annotation. We
 show that we obtain the most precise results to date, also with less user input,
 in an extensive and varied selection of benchmarks and datasets.
 
-
 <p align="center">
   <img src="https://github.com/scaelles/DEXTR-PyTorch/blob/master/doc/github_teaser.gif" align="center" width=480 height=auto/>
 </p>
-
 
 - [Action](#action)
   - [Inputs](#inputs)
@@ -44,14 +41,20 @@ in an extensive and varied selection of benchmarks and datasets.
 
 ### Inputs
 
-- **imagePath** (required): Absolute path to image. This path must be in the
-  agent directory.
-- **points** (required): 4 points marking the most left, right, bottom and top
-  points of the shape
-- **url** : Url for sending requests. A DEXTR docker image will be spun up on
-  this port if not found. (default: `http://localhost:3445`)
+| Name         |  Type  |         Default          | Description                                                                                                                                                                            |
+| ------------ | :----: | :----------------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| imagePath    | string |        _required_        | Absolute path to image. This path must be in the agent directory.                                                                                                                      |
+| points       | array  |        _required_        | 4 points marking the most left, right, bottom and top points of the shape.                                                                                                             |
+| url          | string | `http://localhost:3445`  | Url for sending requests. A DEXTR docker image will be spun up on this port if not found.                                                                                              |
+| image        | string | `datatorch/action-dextr` | Docker image to spin up.                                                                                                                                                               |
+| annotationId | string |          `null`          | Annotation to insert segmentation into. If not provided the segmentation will not be inserted.                                                                                         |
+| simplify     | float  |          `1.5`           | Simplification tolerance applied to segmentation before importing. Set to 0 to disable. Disabling can significantly increase pipeline performance, but decrease annotator performance. |
 
 ### Outputs
+
+| Name         | Type  | Description                                |
+| ------------ | :---: | ------------------------------------------ |
+| segmentation | array | Segmentation of points predicted by DEXTR. |
 
 ## User Guide
 
@@ -107,6 +110,7 @@ navigating to your [agents page](https://datatorch.io/agents) and clicking on
 the agent in the sidebar.
 
 Success should look like this in the console:
+
 ```
 2020-11-20 10:59:34,539 datatorch.agent                DEBUG    API Endpoint at https://datatorch.io/api
 2020-11-20 10:59:34,986 datatorch.agent.agent          DEBUG    Switch to agent directory: /home/datatorch/.config/datatorch/agent

@@ -21,7 +21,7 @@ inputs:
   image:
     type: string
     default: datatorch/action-dextr
-    description: Container image to spin up.
+    description: Docker image to spin up.
   annotationId:
     type: string
     default: null
