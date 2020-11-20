@@ -44,6 +44,13 @@ in an extensive and varied selection of benchmarks and datasets.
 
 ### Inputs
 
+- **imagePath** (required): Absolute path to image. This path must be in the
+  agent directory.
+- **points** (required): 4 points marking the most left, right, bottom and top
+  points of the shape
+- **url** : Url for sending requests. A DEXTR docker image will be spun up on
+  this port if not found. (default: `http://localhost:3445`)
+
 ### Outputs
 
 ## User Guide
