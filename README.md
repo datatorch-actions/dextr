@@ -1,30 +1,35 @@
 # DEXTR Action
 
+
+- [DEXTR Action](#dextr-action)
+  - [User Guide](#user-guide)
+    - [Prerequisites](#prerequisites)
+    - [Agent Setup](#agent-setup)
+      - [Creating Agent](#creating-agent)
+      - [Adding Agent to Project](#adding-agent-to-project)
+    - [Pipeline Setup](#pipeline-setup)
+    - [Usage](#usage)
+  - [FAQ](#faq)
+    - [Quick Debug Checklist](#quick-debug-checklist)
+
+## User Guide
+
 This guide is intended to help first-time users setup Deep Extreme Cut
 [DEXTR](https://github.com/scaelles/DEXTR-PyTorch) for usage in the Datatorch
 annotator.
 
-- [DEXTR Action](#dextr-action)
-  - [Prerequisites](#prerequisites)
-  - [Setup](#setup)
-    - [Agent Setup](#agent-setup)
-    - [Pipeline Setup](#pipeline-setup)
-  - [Usage](#usage)
-  - [FAQ](#faq)
-    - [Quick Debug Checklist](#quick-debug-checklist)
+This guide assumes that you have already set up a project, labels, and file
+sources.
 
-## Prerequisites
+### Prerequisites
 
 - A UNIX distro (OSX, Linux, WSL, etc)
 - Python 3.6+
 - Docker
 
-This guide assumes that you have already set up a project, labels, and file
-sources.
-
-## Setup
-
 ### Agent Setup
+
+#### Creating Agent
 
 First, you will need an API access key associated with your account. If you have
 not generated one already, navigate to your [API Access
@@ -65,8 +70,8 @@ the agent in the sidebar.
 Success should look like this in the console:
 ```
 2020-11-20 10:59:34,539 datatorch.agent                DEBUG    API Endpoint at https://datatorch.io/api
-2020-11-20 10:59:34,986 datatorch.agent.agent          DEBUG    Switch to agent directory: /home/animaluser/.config/datatorch/agent
-2020-11-20 10:59:34,986 datatorch.agent                DEBUG    Agent logger has been initalized.
+2020-11-20 10:59:34,986 datatorch.agent.agent          DEBUG    Switch to agent directory: /home/datatorch/.config/datatorch/agent
+2020-11-20 10:59:34,986 datatorch.agent                DEBUG    Agent logger has been initialized.
 2020-11-20 10:59:34,986 datatorch.agent.agent          INFO     Waiting for jobs.
 2020-11-20 10:59:34,990 datatorch.agent.monitoring     INFO     Sending initial system metrics.
 2020-11-20 10:59:36,921 datatorch.agent.monitoring     INFO     Starting system monitoring task.
@@ -78,6 +83,8 @@ and look like this on the web client:
 
 ![Agent success shown in the agent section of user
 settings](/images/agent_success.png)
+
+#### Adding Agent to Project
 
 Although the agent is now connected to your account, the agent needs to be
 attached to a specific project. On the Datatorch website, from the target
@@ -128,7 +135,7 @@ to start annotating using DEXTR!
 If you are making multiple pipelines, please ensure that the top-level name
 field is unique for each new pipeline.
 
-## Usage
+### Usage
 
 If the pipeline has been setup correctly, a new tool with a brain icon should
 appear in the annotator:
