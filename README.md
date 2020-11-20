@@ -22,7 +22,9 @@ show that we obtain the most precise results to date, also with less user input,
 in an extensive and varied selection of benchmarks and datasets.
 
 
-<p align="center"><img src="doc/github_teaser.gif" align="center" width=480 height=auto/></p>
+<p align="center">
+  <img src="https://github.com/scaelles/DEXTR-PyTorch/blob/master/doc/github_teaser.gif" align="center" width=480 height=auto/>
+</p>
 
 
 - [User Guide](#user-guide)
