@@ -34,10 +34,8 @@ sources.
 First, you will need an API access key associated with your account. If you have
 not generated one already, navigate to your [API Access
 Keys](https://datatorch.io/settings/access-tokens) and generate a new key. Any
-name will suffice.
-
-Write or copy down this key before closing out of the modal; you will **NOT** be
-able to view it again.
+name will suffice. Write or copy down this key before closing out of the modal;
+you will **NOT** be able to view it again.
 
 Now open up a terminal and run the command:
 
