@@ -33,9 +33,7 @@ Next, run the command:
 
 `datatorch login API_KEY`
 
-Replace the `API_KEY` with the key that was copied earlier. A successful login should look something like this:
-
-TODO: SUCESSSFUL LOGIN OUTPUT
+Replace the `API_KEY` with the key that was copied earlier. The console will display a success message alongside the username associated with the key.
 
 Next, you will need to create and name an agent with the command:
 
@@ -46,6 +44,22 @@ You will need to run the agent itself using the command:
 `datatorch agent start`
 
 The agent will then connect with Datatorch's servers. You can confirm success by navigating to your [agents page](https://datatorch.io/agents) and clicking on the agent in the sidebar.
+
+Success should look like this in the console:
+```
+2020-11-20 10:59:34,539 datatorch.agent                DEBUG    API Endpoint at https://datatorch.io/api
+2020-11-20 10:59:34,986 datatorch.agent.agent          DEBUG    Switch to agent directory: /home/animaluser/.config/datatorch/agent
+2020-11-20 10:59:34,986 datatorch.agent                DEBUG    Agent logger has been initalized.
+2020-11-20 10:59:34,986 datatorch.agent.agent          INFO     Waiting for jobs.
+2020-11-20 10:59:34,990 datatorch.agent.monitoring     INFO     Sending initial system metrics.
+2020-11-20 10:59:36,921 datatorch.agent.monitoring     INFO     Starting system monitoring task.
+2020-11-20 10:59:36,921 datatorch.agent.monitoring     DEBUG    Sampling system stats every 60 seconds.
+2020-11-20 10:59:36,922 datatorch.agent.monitoring     DEBUG    System stats: CPU: 0.0, Memory: 5.5, Disk: 2.4
+```
+
+and look like this on the web client:
+
+TODO: WEBCLIENT AGENT
 
 Although the agent is now connected to your account, the agent needs to be attached to a specific project. On the Datatorch website, from the target project's summary page, navigate to the project's **Settings** and click on the **Agents** under **Pipeline**.
 
