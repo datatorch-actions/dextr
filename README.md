@@ -27,6 +27,7 @@ in an extensive and varied selection of benchmarks and datasets.
 - [Action](#action)
   - [Inputs](#inputs)
   - [Outputs](#outputs)
+- [Quick Start](#quick-start)
 - [User Guide](#user-guide)
   - [Prerequisites](#prerequisites)
   - [Agent Setup](#agent-setup)
@@ -55,6 +56,33 @@ in an extensive and varied selection of benchmarks and datasets.
 | Name         | Type  | Description                                |
 | ------------ | :---: | ------------------------------------------ |
 | segmentation | array | Segmentation of points predicted by DEXTR. |
+
+## Quick Start
+
+```yaml
+name: DEXTR
+
+triggers:
+  annotatorButton:
+    name: "DEXTR"
+    icon: brain
+    flow: 4-points
+
+jobs:
+  predict:
+    steps:
+      - name: Download File
+        action: datatorch/download-file@v1
+        inputs:
+          fileId: ${{ event.fileId }}
+
+      - name: Predict Segmentation
+        action: datatorch/dextr@latest
+        inputs:
+          imagePath: ${{ input.path }}
+          points: ${{ event.flowData.points }}
+          annotationId: ${{ event.annotationId }}
+```
 
 ## User Guide
 
