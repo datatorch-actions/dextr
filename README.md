@@ -27,6 +27,9 @@ in an extensive and varied selection of benchmarks and datasets.
 </p>
 
 
+- [Action](#action)
+  - [Inputs](#inputs)
+  - [Outputs](#outputs)
 - [User Guide](#user-guide)
   - [Prerequisites](#prerequisites)
   - [Agent Setup](#agent-setup)
@@ -36,6 +39,12 @@ in an extensive and varied selection of benchmarks and datasets.
   - [Usage](#usage)
 - [FAQ](#faq)
   - [Quick Debug Checklist](#quick-debug-checklist)
+
+## Action
+
+### Inputs
+
+### Outputs
 
 ## User Guide
 
