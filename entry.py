@@ -47,6 +47,7 @@ def valid_image_path():
 def start_server(port: int):
     docker_client = docker.from_env()
     print(f"Creating DEXTR container on port {port}.")
+    print(f"Downloading {image} docker image. This may take a few mins.", flush=True)
     container = docker_client.containers.run(
         image,
         detach=True,
@@ -55,7 +56,7 @@ def start_server(port: int):
         volumes={agent_dir: {"bind": "/agent", "mode": "rw"}},
     )
     if isinstance(container, Model):
-        print(f"Created DEXTR Container: {container.id}")
+        print(f"Created DEXTR Container ({container.short_id}).")
 
 
 def call_dextr(path: str, points: List[Point], address: str) -> List[List[Point]]:
@@ -102,8 +103,7 @@ def send_request():
             if attempts > 5:
                 print(ex)
                 break
-            print(f"Attemp {attempts}: Failed")
-            print("Could not connect to dextr.")
+            print(f"Attemp {attempts}: Could not connect to dextr.")
             start_server(address.port or 80)
             time.sleep(5)
 
