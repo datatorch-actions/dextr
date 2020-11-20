@@ -1,5 +1,3 @@
-# DEXTR Action
-
 <h1 align="center">
   DEXTR Action
 </h1>
@@ -11,16 +9,15 @@
   <img alt="Open Issues" src="https://img.shields.io/github/issues/datatorch-actions/dextr">
 </p>
 
-- [DEXTR Action](#dextr-action)
-  - [User Guide](#user-guide)
-    - [Prerequisites](#prerequisites)
-    - [Agent Setup](#agent-setup)
-      - [Creating Agent](#creating-agent)
-      - [Adding Agent to Project](#adding-agent-to-project)
-    - [Pipeline Setup](#pipeline-setup)
-    - [Usage](#usage)
-  - [FAQ](#faq)
-    - [Quick Debug Checklist](#quick-debug-checklist)
+- [User Guide](#user-guide)
+  - [Prerequisites](#prerequisites)
+  - [Agent Setup](#agent-setup)
+    - [Creating Agent](#creating-agent)
+    - [Adding Agent to Project](#adding-agent-to-project)
+  - [Pipeline Setup](#pipeline-setup)
+  - [Usage](#usage)
+- [FAQ](#faq)
+  - [Quick Debug Checklist](#quick-debug-checklist)
 
 ## User Guide
 
