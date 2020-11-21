@@ -164,8 +164,9 @@ Success should look like this in the console:
 
 and look like this on the web client:
 
-![Agent success shown in the agent section of user
-settings](/images/agent_success.png)
+<p align="center">
+  <img src="/images/agent_success.png" alt="Agent success shown in the agent section of user settings" align="center" height=auto/>
+</p>
 
 #### Adding Agent to Project
 
@@ -223,7 +224,10 @@ field is unique for each new pipeline.
 If the pipeline has been setup correctly, a new tool with a brain icon should
 appear in the annotator:
 
-![DEXTR tool appears in the sidebar of the annotator](/images/tool_appears.png)
+
+<p align="center">
+  <img src="/images/tool_appears.png" alt="Agent success shown in the agent section of user settings" align="center" height=auto/>
+</p>
 
 You can proceed to create DEXTR annotations by clicking on the icon, selecting
 an appropriate label, and then creating a bounding box with four points/clicks
@@ -240,13 +244,17 @@ Although the agent will take some time to start, as long as it is connected, you
 are free to continue to make DEXTR bounding boxes and new annotations on other
 objects and on other files.
 
-![DEXTR annotation is loading](/images/loading.gif)
+<p align="center">
+  <img src="/images/loading.gif" alt="DEXTR annotation is loading" align="center" height=auto/>
+</p>
 
 Once the first-time setup completes, all bounding boxes will be populated with
 their DEXTR segementations. Subsequent DEXTR annotations will update a few
 seconds after completing a bounding box.
 
-![DEXTR tool demonstration, clicking four times](/images/action.gif)
+<p align="center">
+  <img src="/images/action.gif" alt="DEXTR tool demonstration, clicking four times" align="center" height=auto/>
+</p>
 
 Currently, re-doing DEXTR segmentations on a bounding box is not supported, but
 editing existing DEXTR segmentations is supported through use of the brush and
