@@ -38,10 +38,6 @@ in an extensive and varied selection of benchmarks and datasets.
 - [FAQ](#faq)
   - [Quick Debug Checklist](#quick-debug-checklist)
 
-> **NOTE:** Running DEXTR for the first time will take serval minutes to
-> complete as it needs to download the DEXTR docker image. Do not exit out of
-> your agent unless it specifically throws an error.
-
 ## Quick Start
 
 ```yaml
@@ -76,6 +72,10 @@ jobs:
           # segmentation into this annotation
           annotationId: ${{ event.annotationId }}
 ```
+
+> **NOTE:** Running DEXTR for the first time will take serval minutes to
+> complete as it needs to download the DEXTR docker image. Do not exit out of
+> your agent unless it specifically throws an error.
 
 ## Action
 
