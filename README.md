@@ -24,10 +24,10 @@ in an extensive and varied selection of benchmarks and datasets.
   <img src="https://github.com/scaelles/DEXTR-PyTorch/blob/master/doc/github_teaser.gif" align="center" width=480 height=auto/>
 </p>
 
+- [Quick Start](#quick-start)
 - [Action](#action)
   - [Inputs](#inputs)
   - [Outputs](#outputs)
-- [Quick Start](#quick-start)
 - [User Guide](#user-guide)
   - [Prerequisites](#prerequisites)
   - [Agent Setup](#agent-setup)
@@ -38,12 +38,47 @@ in an extensive and varied selection of benchmarks and datasets.
 - [FAQ](#faq)
   - [Quick Debug Checklist](#quick-debug-checklist)
 
+## Quick Start
+
+```yaml
+name: DEXTR
+
+triggers:
+  # Adds a button to the annotator.
+  annotatorButton:
+    name: "DEXTR"
+    icon: brain
+    # Annotator will prompt the user for 4 points before triggering the pipeline
+    flow: 4-points
+
+jobs:
+  predict:
+    # Properties about the trigger event can be accessed at 'event' property
+    steps:
+      - name: Download File
+        action: datatorch/download-file@v1
+        inputs:
+          # Get the file id for the event that triggered this.
+          fileId: ${{ event.fileId }}
+
+      - name: Predict Segmentation
+        action: datatorch/dextr@latest
+        inputs:
+          # Download file path from the previous action.
+          imagePath: ${{ variable.path }}
+          # Get the 4 points the user clicked
+          points: ${{ event.flowData.points }}
+          # Annotation created by the four points. We will insert the
+          # segmentation into this annotation
+          annotationId: ${{ event.annotationId }}
+```
+
 ## Action
 
 ### Inputs
 
-| Name         |  Type  |         Default          | Description                                                                                                                                                                            |
-| ------------ | :----: | :----------------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name           |  Type  |         Default          | Description                                                                                                                                                                            |
+| -------------- | :----: | :----------------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `imagePath`    | string |        _required_        | Absolute path to image. This path must be in the agent directory.                                                                                                                      |
 | `points`       | array  |        _required_        | 4 points marking the most left, right, bottom and top points of the shape.                                                                                                             |
 | `url`          | string | `http://localhost:3445`  | Url for sending requests. A DEXTR docker image will be spun up on this port if not found.                                                                                              |
@@ -53,36 +88,9 @@ in an extensive and varied selection of benchmarks and datasets.
 
 ### Outputs
 
-| Name         | Type  | Description                                |
-| ------------ | :---: | ------------------------------------------ |
+| Name           | Type  | Description                                |
+| -------------- | :---: | ------------------------------------------ |
 | `segmentation` | array | Segmentation of points predicted by DEXTR. |
-
-## Quick Start
-
-```yaml
-name: DEXTR
-
-triggers:
-  annotatorButton:
-    name: "DEXTR"
-    icon: brain
-    flow: 4-points
-
-jobs:
-  predict:
-    steps:
-      - name: Download File
-        action: datatorch/download-file@v1
-        inputs:
-          fileId: ${{ event.fileId }}
-
-      - name: Predict Segmentation
-        action: datatorch/dextr@latest
-        inputs:
-          imagePath: ${{ input.path }}
-          points: ${{ event.flowData.points }}
-          annotationId: ${{ event.annotationId }}
-```
 
 ## User Guide
 
