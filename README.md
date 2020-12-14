@@ -107,7 +107,7 @@ sources.
 
 ### Prerequisites
 
-- A UNIX distro (OSX, Linux, WSL, etc)
+- A UNIX distro (OSX, Linux, WSL, etc) with build tools (`sudo apt install build-essential`) 
 - Python 3.6+
 - Docker
 
