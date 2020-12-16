@@ -1,6 +1,7 @@
 from datatorch import get_input, agent, set_output
 from datatorch.api.api import ApiClient
 from datatorch.api.entity.sources.image import Segmentations
+from datatorch.api.entity.sources import Source
 from datatorch.api.scripts.utils.simplify import simplify_points
 
 import requests
@@ -23,7 +24,8 @@ points = get_input("points")
 image_path = get_input("imagePath")
 address = urlparse(get_input("url"))
 image = get_input("image")
-annotation_id = get_input("annotationId")
+annotation = get_input("annotation")
+annotation_id = get_input("annotation.id")
 simplify = get_input("simplify")
 
 # [[10,20],[30, 40],[50,60],[70,80]]
@@ -80,7 +82,7 @@ def send_request():
     while True:
         try:
             attempts += 1
-            print(f"Attemp {attempts}: Request to DEXTR Server")
+            print(f"Attempt {attempts}: Request to DEXTR Server")
             seg = call_dextr(image_path, points, address.geturl())
             output_seg = (
                 seg
@@ -92,7 +94,12 @@ def send_request():
             )
             set_output("polygons", output_seg)
             print(annotation_id)
-            if annotation_id is not None:
+            existing_segmentation = next(x for x in annotation.sources if x.type = "segmentation")
+            if existing_segmentation
+                print(f"Updating segmentation for annotation {annotation_id}")
+                existing_segmentation.path_data = output_seg + existing_segmentation.path_data 
+                existing_segmentation.update(ApiClient(), id)
+            else if annotation_id is not None:
                 print(f"Creating segmentation source for annotation {annotation_id}")
                 s = Segmentations()
                 s.annotation_id = annotation_id
@@ -103,7 +110,7 @@ def send_request():
             if attempts > 5:
                 print(ex)
                 break
-            print(f"Attemp {attempts}: Could not connect to dextr.")
+            print(f"Attempt {attempts}: Could not connect to dextr.")
             start_server(address.port or 80)
             time.sleep(5)
 
