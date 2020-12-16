@@ -1,7 +1,6 @@
 from datatorch import get_input, agent, set_output
 from datatorch.api.api import ApiClient
 from datatorch.api.entity.sources.image import Segmentations
-from datatorch.api.entity.sources import Source
 from datatorch.api.scripts.utils.simplify import simplify_points
 
 import requests
@@ -25,7 +24,7 @@ image_path = get_input("imagePath")
 address = urlparse(get_input("url"))
 image = get_input("image")
 annotation = get_input("annotation")
-annotation_id = get_input("annotation.id")
+annotation_id = annotation.get("id")
 simplify = get_input("simplify")
 
 # [[10,20],[30, 40],[50,60],[70,80]]
@@ -94,12 +93,18 @@ def send_request():
             )
             set_output("polygons", output_seg)
             print(annotation_id)
-            existing_segmentation = next(x for x in annotation.sources if x.type = "segmentation")
-            if existing_segmentation
+            existing_segmentation = next(x for x in annotation.get("sources") if x.get("type") == "segmentation")
+            if existing_segmentation:
                 print(f"Updating segmentation for annotation {annotation_id}")
-                existing_segmentation.path_data = output_seg + existing_segmentation.path_data 
-                existing_segmentation.update(ApiClient(), id)
-            else if annotation_id is not None:
+                s = Segmentations()
+                s.annotation_id = annotation_id
+                s.id = existing_segmentation.get("id")
+                s.path_data = (
+                    output_seg + existing_segmentation.get("path_data")
+                )
+                s.save(ApiClient(), id)
+                exit(0)
+            if annotation_id is not None:
                 print(f"Creating segmentation source for annotation {annotation_id}")
                 s = Segmentations()
                 s.annotation_id = annotation_id
