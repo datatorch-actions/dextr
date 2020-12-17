@@ -8,6 +8,7 @@ import docker
 import time
 import os
 
+from shapely import geometry
 from typing import List, Tuple
 from docker.models.resource import Model
 from urllib.parse import urlparse
@@ -71,8 +72,34 @@ def call_dextr(path: str, points: List[Point], address: str) -> List[List[Point]
 
     response = requests.post(address, json={"path": container_path, "points": points})
     json = response.json()
-    print(f"Response = {json}")
     return json["polygons"]
+
+
+def remove_polygons_with_2_points(path_data: List[List[Point]]):
+    return list(filter(lambda x: len(x) > 2, path_data))
+
+
+def combine_segmentations(
+    path_data_1: List[List[Point]], path_data_2: List[List[Point]]
+) -> List[List[Point]]:
+
+    poly_1 = [geometry.Polygon(points) for points in path_data_1]
+    multi_1 = geometry.MultiPolygon([poly for poly in poly_1 if poly.is_valid])
+
+    poly_2 = [geometry.Polygon(points) for points in path_data_2]
+    multi_2 = geometry.MultiPolygon([poly for poly in poly_2 if poly.is_valid])
+
+    multi = multi_2.union(multi_1)
+
+    path_data = []
+    if isinstance(multi, geometry.Polygon):
+        path_data.append(list(multi.exterior.coords[:-1]))
+    
+    if isinstance(multi, geometry.MultiPolygon):
+        for polygon in multi:
+            path_data.append(list(polygon.exterior.coords[:-1]))
+
+    return path_data
 
 
 def send_request():
@@ -83,7 +110,7 @@ def send_request():
             attempts += 1
             print(f"Attempt {attempts}: Request to DEXTR Server")
             seg = call_dextr(image_path, points, address.geturl())
-            output_seg = (
+            output_seg = remove_polygons_with_2_points(
                 seg
                 if simplify == 0
                 else [
@@ -92,26 +119,40 @@ def send_request():
                 ]
             )
             set_output("polygons", output_seg)
-            print(annotation_id)
-            existing_segmentation = next(x for x in annotation.get("sources") if x.get("type") == "segmentation")
-            if existing_segmentation:
-                print(f"Updating segmentation for annotation {annotation_id}")
-                s = Segmentations()
-                s.annotation_id = annotation_id
-                s.id = existing_segmentation.get("id")
-                s.path_data = (
-                    output_seg + existing_segmentation.get("path_data")
+            print(f"Annotation ID: {annotation_id}")
+            s = Segmentations()
+            s.annotation_id = annotation_id
+
+            try:
+                existing_segmentation = next(
+                    x
+                    for x in annotation.get("sources")
+                    if x.get("type") == "PaperSegmentations"
                 )
-                s.save(ApiClient(), id)
+
+                print(
+                    f"Updating segmentation for annotation {annotation_id}", flush=True
+                )
+                s.id = existing_segmentation.get("id")
+                s.path_data = combine_segmentations(
+                    output_seg,
+                    remove_polygons_with_2_points(
+                        existing_segmentation.get("pathData")
+                    ),
+                )
+                # exit(0)
+                s.save(ApiClient())
                 exit(0)
+            except StopIteration:
+                pass
+
             if annotation_id is not None:
                 print(f"Creating segmentation source for annotation {annotation_id}")
-                s = Segmentations()
-                s.annotation_id = annotation_id
-                s.path_data = output_seg
+                s.path_data = output_seg  # type: ignore
                 s.create(ApiClient())
             exit(0)
         except Exception as ex:
+            raise ex
             if attempts > 5:
                 print(ex)
                 break
