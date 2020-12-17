@@ -152,9 +152,8 @@ def send_request():
                 s.create(ApiClient())
             exit(0)
         except Exception as ex:
-            raise ex
+            print(ex)
             if attempts > 5:
-                print(ex)
                 break
             print(f"Attempt {attempts}: Could not connect to dextr.")
             start_server(address.port or 80)
