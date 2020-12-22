@@ -85,12 +85,9 @@ def combine_segmentations(
 ) -> List[List[Point]]:
 
     poly_1 = [geometry.Polygon(points) for points in path_data_1]
-    multi_1 = geometry.MultiPolygon([poly for poly in poly_1 if poly.is_valid])
-
     poly_2 = [geometry.Polygon(points) for points in path_data_2]
-    multi_2 = geometry.MultiPolygon([poly for poly in poly_2 if poly.is_valid])
 
-    multi = shapely.ops.unary_union([multi_1, multi_2])
+    multi = shapely.ops.unary_union(poly_1 + poly_2)
 
     path_data = []
     if isinstance(multi, geometry.Polygon):
