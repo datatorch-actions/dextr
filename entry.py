@@ -7,6 +7,7 @@ import requests
 import docker
 import time
 import os
+import shapely.ops
 
 from shapely import geometry
 from typing import List, Tuple
@@ -89,7 +90,7 @@ def combine_segmentations(
     poly_2 = [geometry.Polygon(points) for points in path_data_2]
     multi_2 = geometry.MultiPolygon([poly for poly in poly_2 if poly.is_valid])
 
-    multi = multi_2.union(multi_1)
+    multi = shapely.ops.unary_union([multi_1, multi_2])
 
     path_data = []
     if isinstance(multi, geometry.Polygon):
@@ -110,14 +111,14 @@ def send_request():
             attempts += 1
             print(f"Attempt {attempts}: Request to DEXTR Server")
             seg = call_dextr(image_path, points, address.geturl())
-            output_seg = remove_polygons_with_2_points(
-                seg
-                if simplify == 0
-                else [
+            if simplify == 0:
+                input_seg = seg
+            else:
+                input_seg = [
                     simplify_points(polygon, tolerance=simplify, highestQuality=False)
                     for polygon in seg
                 ]
-            )
+            output_seg = remove_polygons_with_2_points(input_seg)
             set_output("polygons", output_seg)
             print(f"Annotation ID: {annotation_id}")
             s = Segmentations()
@@ -129,7 +130,6 @@ def send_request():
                     for x in annotation.get("sources")
                     if x.get("type") == "PaperSegmentations"
                 )
-
                 print(
                     f"Updating segmentation for annotation {annotation_id}", flush=True
                 )
