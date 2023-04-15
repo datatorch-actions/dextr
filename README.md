@@ -60,6 +60,7 @@ jobs:
         inputs:
           # Get the file id for the event that triggered this.
           fileId: ${{ event.fileId }}
+          name: ${{ event.fileName }}
 
       - name: Predict Segmentation
         action: datatorch/dextr@latest
